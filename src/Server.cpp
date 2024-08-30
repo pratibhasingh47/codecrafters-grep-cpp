@@ -31,6 +31,7 @@ bool match_pattern(const std::string& input_line, const std::string& pattern) {
         throw std::runtime_error("Unhandled pattern " + pattern);
     }
 }
+}
 
 int main(int argc, char* argv[]) {
     // Flush after every std::cout / std::cerr
