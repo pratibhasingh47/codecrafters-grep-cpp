@@ -18,20 +18,21 @@ bool match_pattern(const std::string& input_line, const std::string& pattern) {
     }
     else if (pattern.at(0) == '[' && pattern.at(pattern.length() - 1) == ']') {
         bool negate = pattern[1] == '^';
-    std::string chars_to_match =
+        std::string chars_to_match =
         pattern.substr(negate ? 2 : 1, pattern.size() - (negate ? 3 : 2));
-    for (const auto &c : input_line) {
-        if (chars_to_match.find(c) != std::string::npos && !negate) {
-            return true;
-        } else if (chars_to_match.find(c) == std::string::npos && negate) {
-            return true;
+        for (const auto &c : input_line) {
+            if (chars_to_match.find(c) != std::string::npos && !negate) {
+                return true;
+            } else if (chars_to_match.find(c) == std::string::npos && negate) {
+                return true;
+            }
         }
     }
     else {
         throw std::runtime_error("Unhandled pattern " + pattern);
     }
 }
-}
+
 
 int main(int argc, char* argv[]) {
     // Flush after every std::cout / std::cerr
