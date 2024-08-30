@@ -53,18 +53,20 @@ bool match_pattern(std::string_view input_line, std::string_view pattern)
         std::string_view p2{pattern.begin(), pattern.begin() + res};
         std::string_view p3{pattern.begin() + res + 1, pattern.end()};
         return input_line.find(std::string(p1) + std::string(p3)) != std::string::npos ||
-            input_line.find(std::string(p2) + std::string(p3)) != std::string::npos;
+               input_line.find(std::string(p2) + std::string(p3)) != std::string::npos;
     }
     if (pattern[0] == '\\' && pattern[1] == 'd')
     {
-        auto is_digit = [](char c) { return std::isdigit(c); };
+        auto is_digit = [](char c)
+        { return std::isdigit(c); };
         if (auto res = std::ranges::find_if(input_line, is_digit); res != input_line.end())
             return matchre({res + 1, input_line.end()}, {pattern.data() + 2, pattern.size() - 2});
         return false;
     }
     if (pattern[0] == '\\' && pattern[1] == 'w')
     {
-        auto is_alnum = [](char c) { return std::isalnum(c) || c == '_'; };
+        auto is_alnum = [](char c)
+        { return std::isalnum(c) || c == '_'; };
         if (auto res = std::ranges::find_if(input_line, is_alnum); res != input_line.end())
             return matchre({res + 1, input_line.end()}, {pattern.data() + 2, pattern.size() - 2});
         return false;
@@ -72,12 +74,12 @@ bool match_pattern(std::string_view input_line, std::string_view pattern)
     if (pattern[0] == '[' && pattern[1] != '^' && pattern.back() == ']')
     {
         return std::ranges::find_first_of(input_line, std::string_view{pattern.data() + 1, pattern.size() - 2}) !=
-            input_line.end();
+               input_line.end();
     }
     if (pattern[0] == '[' && pattern[1] == '^' && pattern.back() == ']')
     {
         return std::ranges::find_first_of(input_line, std::string_view{pattern.data() + 2, pattern.size() - 3}) ==
-            input_line.end();
+               input_line.end();
     }
     if (auto res = std::ranges::find(input_line, pattern[0]); res != input_line.end())
     {
@@ -85,7 +87,7 @@ bool match_pattern(std::string_view input_line, std::string_view pattern)
     }
     return false;
 }
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
     // Flush after every std::cout / std::cerr
     std::cout << std::unitbuf;
@@ -119,10 +121,9 @@ int main(int argc, char* argv[])
             return 1;
         }
     }
-    catch (const std::exception& e)
+    catch (const std::exception &e)
     {
         std::cerr << e.what() << std::endl;
         return 1;
     }
 }
-
